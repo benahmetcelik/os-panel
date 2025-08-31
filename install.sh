@@ -178,12 +178,14 @@ chown -R www-data:www-data /var/www/panel
 chmod -R 755 /var/www/panel
 chmod -R 775 /var/www/panel/storage
 chmod -R 775 /var/www/panel/bootstrap/cache
+# Get server IP
+SERVER_IP=$(curl -s ifconfig.me 2>/dev/null || hostname -I | cut -d' ' -f1 | tr -d ' ')
 
 echo "🌐 Creating Nginx configuration for the panel..."
 cat > /etc/nginx/sites-available/panel.conf <<EOL
 server {
     listen 80;
-    server_name _;  # Your server IP address or domain
+    server_name http://${SERVER_IP};  # Your server IP address or domain
 
     root /var/www/panel/public;
     index index.php index.html index.htm;
@@ -237,8 +239,6 @@ echo "🔐 Final permission check..."
 chown -R www-data:www-data /var/www/panel
 chmod -R 755 /var/www/panel/storage /var/www/panel/bootstrap/cache
 
-# Get server IP
-SERVER_IP=$(curl -s ifconfig.me 2>/dev/null || hostname -I | cut -d' ' -f1 | tr -d ' ')
 
 echo ""
 echo "🎉================================🎉"
