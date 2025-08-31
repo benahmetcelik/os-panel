@@ -23,11 +23,7 @@ else
     echo "📁 Contents:"
     ls -la /var/www/panel/ 2>/dev/null || echo "   (Directory is empty or inaccessible)"
     echo ""
-    read -rp "Do you want to remove existing files in /var/www/panel? (y/n): " confirm
-    if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
-        echo "❌ Installation aborted by user."
-        exit 1
-    fi
+
     echo "🗑️  Removing existing files..."
     rm -rf /var/www/panel/*
     rm -rf /var/www/panel/.[^.]* 2>/dev/null || true
