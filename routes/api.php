@@ -1,19 +1,22 @@
 <?php
-
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\ServerController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
+Route::middleware(['api'])->prefix('server')->group(function () {
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    Route::get('/stats', [ServerController::class, 'getSystemStats']);
+
+    Route::get('/nginx-sites', [ServerController::class, 'getNginxSites']);
+    Route::get('/docker-containers', [ServerController::class, 'getDockerContainers']);
+    Route::get('/docker-containers/stats/{containerId}', [ServerController::class, 'getDockerContainerStats']);
+    Route::post('/container/{action}', [\App\Http\Controllers\Api\DockerController::class, 'actionToContainer']);
+    Route::get('/docker-containers/logs/{containerId}', [\App\Http\Controllers\Api\DockerController::class, 'getDockerLogs']);
+
+    Route::get('/uptime', [ServerController::class, 'getSystemUptime']);
+
+    Route::get('/load', [ServerController::class, 'getSystemLoad']);
+
+    Route::get('/nginx-status', [ServerController::class, 'getNginxStatus']);
+
+    Route::post('/clear-cache', [ServerController::class, 'clearCache']);
 });
