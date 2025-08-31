@@ -15,6 +15,7 @@ else
     else
         echo "Continuing installation..."
         rm -rf /var/www/panel/*
+    fi
 fi
 echo "Changing to /var/www/panel directory..."
 cd /var/www/panel || exit
