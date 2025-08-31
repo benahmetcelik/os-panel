@@ -30,5 +30,5 @@ if pgrep -f "docker:terminal-server" > /dev/null; then
     echo "🛑 Durdurmak için: pkill -f 'docker:terminal-server'"
 else
     echo "❌ Terminal server başlatılamadı!"
-    exit 1
+    exit 1;
 fi

@@ -115,6 +115,20 @@ function displayNginxSites(sites) {
                         ${site.status === 'active' ? 'Aktif' : 'Pasif'}
                         ${site.ssl ? '<i class="fas fa-lock" style="color: #27ae60; margin-left: 10px;" title="SSL Aktif"></i>' : ''}
                     </div>
+                      <div class="container-actions">
+                <button class="action-btn start-stop-btn"
+                        data-container-id="${site.ID || site.Names}"
+                        data-current-state="${site.State}"
+                        onclick="toggleContainer(this)">
+                    ${site.State === 'running' ? 'Durdur' : 'Başlat'}
+                </button>
+
+                <button class="action-btn manage-btn"
+                        data-container-id="${site.ID || site.Names}"
+                        onclick="showManagePopup(this)">
+                    Yönet
+                </button>
+            </div>
                 </div>
             `).join('');
 }
@@ -155,7 +169,7 @@ function displayDockerContainers(docker_container) {
     }
 
     container.innerHTML = docker_container.map(docker_container_item => `
-        <div class="site-card ${docker_container_item.status === 'active' ? '' : 'inactive'}">
+        <div class="site-card ${docker_container_item.State === 'running' ? '' : 'inactive'}">
             <div class="site-name">${docker_container_item.Names}</div>
             <div class="site-url">${docker_container_item.Ports}</div>
             <div class="site-status">
@@ -165,17 +179,34 @@ function displayDockerContainers(docker_container) {
             <br> CPU : ${docker_container_item.CPUPerc} - RAM : ${docker_container_item.MemUsage}
 
             <div class="container-actions">
+
                 <button class="action-btn start-stop-btn"
-                        data-container-id="${docker_container_item.ID || docker_container_item.Names}"
+                data-container-id="${docker_container_item.ID || docker_container_item.Names}"
                         data-current-state="${docker_container_item.State}"
-                        onclick="toggleContainer(this)">
-                    ${docker_container_item.State === 'running' ? 'Durdur' : 'Başlat'}
+                        onclick="toggleContainer(this)"
+                >
+                     ${docker_container_item.State === 'running' ? '||' : '▶'}
                 </button>
 
-                <button class="action-btn manage-btn"
-                        data-container-id="${docker_container_item.ID || docker_container_item.Names}"
-                        onclick="showManagePopup(this)">
-                    Yönet
+
+                 <button class="action-btn" onclick="openTerminal('${docker_container_item.ID}')">
+                    🖥️
+                </button>
+
+                <button class="action-btn" onclick="showLogs('${docker_container_item.ID}')">
+                    📄
+                </button>
+
+                <button class="action-btn" onclick="showStats('${docker_container_item.ID}')">
+                    📊
+                </button>
+
+                <button class="action-btn" onclick="restartContainer('${docker_container_item.ID}')">
+                    🔄
+                </button>
+
+                <button class="action-btn" onclick="removeContainer('${docker_container_item.ID}')">
+                    🗑
                 </button>
             </div>
         </div>
@@ -242,6 +273,10 @@ container.innerHTML = docker_container.map(docker_container_item => `
                         onclick="toggleContainer(this)">
                     ${docker_container_item.State === 'running' ? 'Durdur' : 'Başlat'}
                 </button>
+
+
+
+
 
                 <button class="action-btn manage-btn"
                         data-container-id="${docker_container_item.ID || docker_container_item.Names}"
@@ -357,7 +392,7 @@ function openTerminal(containerId) {
                     <button class="terminal-modal-close" onclick="closeTerminalModal()">✕</button>
                 </div>
                 <div class="terminal-modal-body">
-                    <iframe src="/test-terminal?container=${containerId}" frameborder="0" width="100%" height="100%"></iframe>
+                    <iframe src="/docker/terminal/${containerId}" frameborder="0" width="100%" height="100%"></iframe>
                 </div>
             </div>
         </div>

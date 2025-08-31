@@ -222,6 +222,30 @@ class ServerController extends Controller
 
             $sites = [
 
+                [
+                    'name' => 'example.com',
+                    'domain' => 'http://example.com',
+                    'port' => 80,
+                    'ssl' => false,
+                    'root' => '/var/www/html',
+                    'status' => 'unknown'
+                ],
+                [
+                    'name' => 'example.com',
+                    'domain' => 'http://example.com',
+                    'port' => 80,
+                    'ssl' => false,
+                    'root' => '/var/www/html',
+                    'status' => 'unknown'
+                ],
+                [
+                    'name' => 'example.com',
+                    'domain' => 'http://example.com',
+                    'port' => 80,
+                    'ssl' => false,
+                    'root' => '/var/www/html',
+                    'status' => 'unknown'
+                ]
             ];
         }
 
