@@ -63,11 +63,9 @@ apt install -y \
     php${PHP_VERSION}-mbstring \
     php${PHP_VERSION}-xml \
     php${PHP_VERSION}-zip \
-    php${PHP_VERSION}-json \
     php${PHP_VERSION}-tokenizer \
     php${PHP_VERSION}-bcmath \
-    php${PHP_VERSION}-intl \
-    php${PHP_VERSION}-gd
+    php${PHP_VERSION}-intl
 
 # PHP 8.1'i varsayılan yap
 echo "⚙️  Setting PHP 8.1 as default..."
