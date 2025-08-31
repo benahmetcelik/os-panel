@@ -1,11 +1,20 @@
 # var/www/panel klasörü var mı kontrol et
 if [ ! -d "/var/www/panel" ]; then
   echo "Warning: /var/www/panel directory does not exist."
-  #Klasör yoksa oluştur
     mkdir -p /var/www/panel
     echo "/var/www/panel directory created."
 else
     echo "/var/www/panel directory exists."
+    echo "Cancel (0) or Continue (1)?"
+    echo "If you choose to continue, the installation may deleting existing files."
+    echo -n "Enter your choice: "
+    read choice
+    if [ "$choice" -eq 0 ]; then
+        echo "Exiting installation."
+        exit 1
+    else
+        echo "Continuing installation..."
+        rm -rf /var/www/panel/*
 fi
 echo "Changing to /var/www/panel directory..."
 cd /var/www/panel || exit
