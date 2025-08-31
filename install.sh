@@ -26,14 +26,14 @@ echo "Upgrading installed packages..."
 apt upgrade -y
 
 echo "Installing required packages..."
-apt install -y git curl php-cli php-mbstring php-bcmath php-curl php-zip php-sqlite3 php-intl php-dev php-pear
-
+apt install php php-fpm php-sqlite3 php-cli php-curl php-mbstring php-xml php-zip
 echo "Installing Composer..."
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
 chmod +x /usr/local/bin/composer
 echo "Installing Nginx..."
 apt install -y nginx
+apt install nginx-core
 echo "Starting Nginx service..."
 systemctl start nginx
 systemctl enable nginx
@@ -75,6 +75,10 @@ systemctl start php8.1-fpm
 systemctl enable php8.1-fpm
 echo "Cloning the panel repository..."
 git clone https://github.com/benahmetcelik/os-panel.git .
+
+echo "Adding git"
+git config --global --add safe.directory /var/www/panel
+
 
 echo "Setting permissions..."
 chown -R www-data:www-data /var/www/panel
