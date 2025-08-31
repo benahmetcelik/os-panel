@@ -13,35 +13,6 @@ fi
 PHP_VERSION="8.1"
 echo "Target PHP version: $PHP_VERSION"
 
-# Function to get user choice
-get_user_choice() {
-    local choice
-    while true; do
-        echo "Cancel (0) or Continue (1)?"
-        echo "If you choose to continue, the installation may delete existing files."
-        echo -n "Enter your choice (0/1): "
-
-        # Temporarily disable exit on error for read
-        set +e
-        read -r choice
-        set -e
-
-        case $choice in
-            0)
-                echo "Exiting installation."
-                exit 0
-                ;;
-            1)
-                echo "Continuing installation..."
-                return 0
-                ;;
-            *)
-                echo "❌ Invalid input. Please enter 0 or 1."
-                echo ""
-                ;;
-        esac
-    done
-}
 
 if [ ! -d "/var/www/panel" ]; then
     echo "Warning: /var/www/panel directory does not exist."
@@ -52,9 +23,11 @@ else
     echo "📁 Contents:"
     ls -la /var/www/panel/ 2>/dev/null || echo "   (Directory is empty or inaccessible)"
     echo ""
-
-    get_user_choice
-
+    read -rp "Do you want to remove existing files in /var/www/panel? (y/n): " confirm
+    if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+        echo "❌ Installation aborted by user."
+        exit 1
+    fi
     echo "🗑️  Removing existing files..."
     rm -rf /var/www/panel/*
     rm -rf /var/www/panel/.[^.]* 2>/dev/null || true
