@@ -1,157 +1,114 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="tr">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>@yield('title', 'Server Management')</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Font Awesome -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Management Dashboard</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #f8f9fa;
-        }
-
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-
-        .sidebar {
-            background: #343a40;
-            min-height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 250px;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar .nav-link {
-            color: #adb5bd;
-            padding: 12px 20px;
-            border-radius: 8px;
-            margin: 4px 12px;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar .nav-link:hover,
-        .sidebar .nav-link.active {
-            background: #495057;
-            color: white;
-        }
-
-        .main-content {
-            margin-left: 250px;
-            min-height: 100vh;
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-
-            .sidebar.show {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-            }
-        }
-    </style>
-
-    @yield('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ asset('css/modals.css') }}">
 </head>
+<link rel="stylesheet" href="{{ asset('css/main.css?v='.rand(0,9999999)) }}">
+<link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 <body>
-<!-- Sidebar -->
-<nav class="sidebar" id="sidebar">
-    <div class="p-3">
-        <a href="{{ route('dashboard') }}" class="navbar-brand text-white d-flex align-items-center">
-            <i class="fas fa-server me-2"></i>
-            Server Panel
-        </a>
-    </div>
 
-    <ul class="nav flex-column">
-        <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
-               href="{{ route('dashboard') }}">
-                <i class="fas fa-tachometer-alt me-2"></i>
-                Dashboard
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('server.*') ? 'active' : '' }}"
-               href="/">
-                <i class="fas fa-server me-2"></i>
-                Sunucu Yönetimi
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('sites.*') ? 'active' : '' }}"
-               href="{{ route('sites.index') }}">
-                <i class="fas fa-globe me-2"></i>
+
+@stack('styles')
+
+
+<!-- Mobile Menu Button -->
+<button class="mobile-menu-btn" onclick="toggleMobileSidebar()">
+    <i class="fas fa-bars"></i>
+</button>
+
+<!-- Sidebar Overlay for mobile -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
+
+<div class="dashboard-container">
+    <!-- Sol Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1><i class="fas fa-server"></i> Server Dashboard</h1>
+            <div class="subtitle">Sunucu yönetim paneli</div>
+        </div>
+
+        <div class="sidebar-menu">
+            <a href="{{ route('sites.index') }}" class="menu-item {{ request()->routeIs('sites.*') ? 'active' : '' }}">
+                <i class="fas fa-globe"></i>
                 Site Yönetimi
             </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('logs.*') ? 'active' : '' }}"
-               href="{{ route('logs.index') }}">
-                <i class="fas fa-file-alt me-2"></i>
-                Loglar
+            <a href="#" class="menu-item">
+                <i class="fas fa-cogs"></i>
+                Sunucu Ayarları
             </a>
-        </li>
-    </ul>
-</nav>
+            <a href="#" class="menu-item">
+                <i class="fas fa-server"></i>
+                Nginx Yönetimi
+            </a>
 
-<!-- Main Content -->
-<main class="main-content">
-    <!-- Top Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-        <div class="container-fluid">
-            <button class="btn btn-outline-secondary d-lg-none" type="button" onclick="toggleSidebar()">
-                <i class="fas fa-bars"></i>
-            </button>
+            <div class="menu-divider"></div>
 
-            <div class="navbar-nav ms-auto">
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-user-circle me-1"></i>
-                        {{ auth()->user()->name ?? 'Admin' }}
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profil</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Ayarlar</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-{{--                            <form method="POST" action="{{ route('logout') }}" class="d-inline">--}}
-{{--                                @csrf--}}
-{{--                                <button type="submit" class="dropdown-item">--}}
-{{--                                    <i class="fas fa-sign-out-alt me-2"></i> Çıkış--}}
-{{--                                </button>--}}
-{{--                            </form>--}}
-                        </li>
-                    </ul>
+            <a href="#" class="menu-item">
+                <i class="fas fa-shield-alt"></i>
+                DNS ve SSL Ayarları
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-puzzle-piece"></i>
+                Eklentiler
+            </a>
+
+            <div class="menu-divider"></div>
+
+            <a href="#" class="menu-item">
+                <i class="fa-brands fa-docker"></i>
+                Docker Containerları
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-database"></i>
+                Veritabanı Yönetimi
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-users"></i>
+                Kullanıcı Yönetimi
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                Sistem İstatistikleri
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-file-alt"></i>
+                Log Yönetimi
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-backup"></i>
+                Yedekleme
+            </a>
+        </div>
+    </div>
+
+    <!-- Ana İçerik Alanı -->
+    <div class="main-content">
+        <div class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <div>
+                        <h1><i class="fas fa-server"></i> Server Dashboard</h1>
+                        <div class="subtitle">Sunucu durumu ve sistem metrikleri</div>
+                    </div>
+
+
+                </div>
+
+                <div class="header-right">
+                    <button class="btn btn-success" onclick="refreshData()">
+                        <i class="fas fa-sync-alt"></i> Yenile
+                    </button>
                 </div>
             </div>
         </div>
-    </nav>
 
-    <!-- Page Content -->
-    <div class="p-4">
-        @if(session('success'))
+
+    @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="fas fa-check-circle me-2"></i>
                 {{ session('success') }}
@@ -168,35 +125,13 @@
         @endif
 
         @yield('content')
+
     </div>
-</main>
 
-<!-- Bootstrap JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
-<!-- Axios for API calls -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
-
-<script>
-    function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        sidebar.classList.toggle('show');
-    }
-
-    // Mobile sidebar'ı kapatma
-    document.addEventListener('click', function(e) {
-        const sidebar = document.getElementById('sidebar');
-        const toggleBtn = document.querySelector('[onclick="toggleSidebar()"]');
-
-        if (window.innerWidth <= 768 &&
-            !sidebar.contains(e.target) &&
-            !toggleBtn.contains(e.target) &&
-            sidebar.classList.contains('show')) {
-            sidebar.classList.remove('show');
-        }
-    });
-</script>
-
-@yield('scripts')
+</div>
 </body>
+@stack('scripts')
+
+<script src="{{ asset('js/main.js?v='.rand(0,99999)) }}"></script>
+
 </html>
