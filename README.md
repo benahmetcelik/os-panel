@@ -9,6 +9,7 @@ curl -H "Cache-Control: no-cache" \
 
 
 Yapılacaklar:
+- [ ] installer içine docker ve nginx kurulumu eklenecek 
 - [x] Site yönetimi ekle
 - [ ] Filemanager ekle
 - [ ] FTP ekle
