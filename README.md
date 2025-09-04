@@ -25,3 +25,20 @@ Yapılacaklar:
 - [ ] Daha fazla dil desteği ekle
 - [ ] Daha fazla tema ekle
 - [ ] Server yedekleme özelliği ekle
+- [ ] Loglama ve izleme özellikleri ekle
+- [ ] Dökümantasyon hazırlanacak ve Readme güncellenecek
+
+## Katkıda bulunmak için
+Eğer projeye katkıda bulunmak isterseniz, lütfen aşağıdaki adımları izleyin:
+1. Bu depoyu fork edin.
+2. Yeni bir branch oluşturun (`git checkout -b feature/özellik-adi`).
+3. Değişikliklerinizi yapın ve commit edin (`git commit -m 'Özellik eklendi'`).
+4. Değişikliklerinizi push edin (`git push origin feature/özellik-adi`).
+5. Bir pull request oluşturun.
+6. Kodunuz incelenecek ve uygun bulunursa ana depoya dahil edilecektir.
+7. Teşekkürler!
+
+## İletişim
+Herhangi bir sorunuz veya öneriniz varsa, lütfen benimle iletişime geçin:
+- E-posta: [ben4hmetcelik@gmail.com](mailto:ben4hmetcelik@gmail.com)
+- Linkedin: [linkedin.com/in/benahmetcelik](https://www.linkedin.com/in/benahmetcelik)
