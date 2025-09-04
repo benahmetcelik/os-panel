@@ -21,9 +21,7 @@ Route::middleware(['web'])->group(function () {
     })->name('dashboard');
 
 
-    Route::get('/sites', function () {
-        return view('dashboard.sites');
-    })->name('sites.index');
+    Route::resource('sites',\App\Http\Controllers\SiteController::class);
 
     Route::get('/logs', function () {
         return view('dashboard.logs');
@@ -40,5 +38,8 @@ Route::get('/docker/stats-async/{id}', [DockerController::class, 'statsAsync']);
 
 Route::post('/docker/terminal-input/{id}', [DockerController::class, 'terminalInput']);
 Route::get('/docker/terminal-stream/{id}', [DockerController::class, 'terminalStream']);
+
+
+
 
 
