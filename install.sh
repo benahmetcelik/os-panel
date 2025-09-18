@@ -10,9 +10,7 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-echo "🖥️  Starting sudoers script..."
-chmod +x bash_files/sudoers.sh
-bash bash_files/sudoers.sh
+
 
 
 echo "🖥️  Starting directory setter script..."
@@ -46,6 +44,9 @@ echo "🖥️  Starting os panel installer script..."
 chmod +x bash_files/os_panel_installer.sh
 bash bash_files/os_panel_installer.sh
 
+echo "🖥️  Starting sudoers script..."
+chmod +x bash_files/sudoers.sh
+bash bash_files/sudoers.sh
 
 echo "🖥️  Starting os panel nginx installer script..."
 chmod +x bash_files/os_panel_nginx_installer.sh
