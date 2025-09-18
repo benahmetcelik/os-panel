@@ -10,56 +10,38 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-
-
-
 echo "🖥️  Starting directory setter script..."
-chmod +x bash_files/directory_setter.sh
-bash bash_files/directory_setter.sh
-
+curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/directory_setter.sh" | bash
 
 echo "🖥️  Starting updater script..."
-chmod +x bash_files/updater.sh
-bash bash_files/updater.sh
-
+curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/updater.sh" | bash
 
 echo "🖥️  Starting git installer script..."
-chmod +x bash_files/git_installer.sh
-bash bash_files/git_installer.sh
-
+curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/git_installer.sh" | bash
 
 echo "🖥️  Starting php installer script..."
-chmod +x bash_files/php_installer.sh
-bash bash_files/php_installer.sh
+curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/php_installer.sh" | bash
 
 echo "🖥️  Starting composer installer script..."
-chmod +x bash_files/composer.sh
-bash bash_files/composer.sh
+curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/composer.sh" | bash
 
 echo "🖥️  Starting nginx installer script..."
-chmod +x bash_files/nginx_installer.sh
-bash bash_files/nginx_installer.sh
+curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/nginx_installer.sh" | bash
 
 echo "🖥️  Starting os panel installer script..."
-chmod +x bash_files/os_panel_installer.sh
-bash bash_files/os_panel_installer.sh
+curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/os_panel_installer.sh" | bash
 
 echo "🖥️  Starting sudoers script..."
-chmod +x bash_files/sudoers.sh
-bash bash_files/sudoers.sh
+curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/sudoers.sh" | bash
 
 echo "🖥️  Starting os panel nginx installer script..."
-chmod +x bash_files/os_panel_nginx_installer.sh
-bash bash_files/os_panel_nginx_installer.sh
-
+curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/os_panel_nginx_installer.sh" | bash
 
 echo "🔐 SSL Module Installing..."
 sudo apt install certbot python3-certbot-nginx -y
 
 echo "🖥️  Starting terminal server script..."
-chmod +x bash_files/start-terminal-server.sh
-bash bash_files/start-terminal-server.sh
+curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/start-terminal-server.sh" | bash
 
 echo "🖥️  Starting final screen script..."
-chmod +x bash_files/final_screen.sh
-bash bash_files/final_screen.sh
+curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/final_screen.sh" | bash
