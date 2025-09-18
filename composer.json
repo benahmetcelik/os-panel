@@ -11,6 +11,7 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "predis/predis": "^3.2",
         "react/child-process": "^0.6.6"
     },
     "require-dev": {
