@@ -51,7 +51,7 @@ class Site extends Model
             [$this->domain, $this->getSitePath()],
             $stub
         );
-        file_put_contents(storage_path('nginx/'.$this->domain), $config);
+        file_put_contents(storage_path('nginx/'.$this->domain.'.conf'), $config);
 
     }
 
