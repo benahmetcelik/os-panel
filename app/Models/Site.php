@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Site extends Model
 {
@@ -30,7 +31,7 @@ class Site extends Model
      */
     public function createFolder()
     {
-        $folder = $this->working_directory;
+        $folder = $this->getSitePath();
         if (!file_exists($folder)) {
             mkdir($folder);
         }
@@ -51,5 +52,11 @@ class Site extends Model
         $edit_path = str_replace('[[path]]', $this->working_directory, $edit_domain);
         file_put_contents(nginxEnabledConfigPath(), $edit_path);
 
+    }
+
+    public function getSitePath()
+    {
+        $startsWith = Str::startsWith('/',$this->working_directory);
+        return __DIR__.(!$startsWith ? '/':'').$this->working_directory;
     }
 }
