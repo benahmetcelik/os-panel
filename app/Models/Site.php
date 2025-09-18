@@ -46,9 +46,7 @@ class Site extends Model
     public function createNginxConfig()
     {
 
-        $stub = file_get_contents(base_path('stubs/nginx/available'.
-            ($this->ssl_status ? '-with-ssl' : '')
-            .'.stub'));
+        $stub = file_get_contents(base_path('stubs/nginx/available.stub'));
         $config = str_replace(
             ['[[domain]]', '[[path]]'],
             [$this->domain, $this->getSitePath()],
