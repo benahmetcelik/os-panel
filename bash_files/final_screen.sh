@@ -1,4 +1,4 @@
-source ./vars.sh
+source vars.sh
 echo ""
 echo "🎉================================🎉"
 echo "   Installation completed successfully!"
