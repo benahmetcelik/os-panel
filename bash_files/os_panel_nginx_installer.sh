@@ -1,6 +1,14 @@
 # Get server IP
 SERVER_IP=$(curl -s ifconfig.me 2>/dev/null || hostname -I | cut -d' ' -f1 | tr -d ' ')
 PHP_VERSION=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+
+
+
+echo "🔧 Cleaning Nginx site configuration..."
+rm -rf /etc/nginx/sites-enabled/*
+rm -rf /etc/nginx/sites-available/*
+echo "✅ All sites disabled."
+
 echo "🌐 Creating Nginx configuration for the panel..."
 cat > /etc/nginx/sites-available/panel.conf <<EOL
 server {
@@ -34,10 +42,6 @@ server {
 }
 EOL
 
-echo "🔧 Enabling Nginx site configuration..."
-rm -rf /etc/nginx/sites-enabled/*
-rm -rf /etc/nginx/sites-available/*
-echo "✅ All sites disabled."
 
 ln -sf /etc/nginx/sites-available/panel.conf /etc/nginx/sites-enabled/
 
