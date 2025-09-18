@@ -29,16 +29,25 @@ class AddSLLToDomainJob implements ShouldQueue
     public function handle(): void
     {
 
-        $process = new Process(['sudo', 'nginx', '-y']);
-        $process->run();
-
-        $domain =  $this->domain;
+        $domain = $this->domain;
+        $email  = "admin@{$domain}";
 
         $process = new Process([
-            'bash', '-c',
-            'sudo certbot --nginx --non-interactive --agree-tos -m admin@'.$domain.' -d '.$domain.' -d www.'.$domain.' > /var/log/certbot-laravel.log 2>&1 &'
+            'sudo', 'certbot',
+            '--nginx',
+            '--non-interactive',
+            '--agree-tos',
+            '-m', $email,
+            '-d', $domain,
+            '-d', "www.{$domain}"
         ]);
-        $process->run();
+
+        $process->setTimeout(300);
+
+        $process->mustRun();
+
+        (new Process(['sudo', 'nginx', '-t']))->mustRun();
+        (new Process(['sudo', 'systemctl', 'reload', 'nginx']))->mustRun();
 
 
 
