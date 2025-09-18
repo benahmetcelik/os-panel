@@ -56,7 +56,13 @@ class SiteController extends Controller
             'ssl_status' => 'required|boolean',
         ]);
 
-        Site::create($request->all());
+        /**
+         * @var Site $site
+         */
+        $site = Site::create($request->all());
+        $site->createFolder();
+        $site->createNginxConfig();
+
 
         return redirect()->route('sites.index')->with('success', 'Site created successfully.');
     }
