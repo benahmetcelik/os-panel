@@ -14,6 +14,6 @@ sudo cp "$LARAVEL_PATH/supervisor/os-panel-worker.conf" "$SUPERVISOR_CONF"
 echo "🔄 Reloading Supervisor..."
 sudo supervisorctl reread
 sudo supervisorctl update
-sudo supervisorctl restart laravel-worker:*
+sudo supervisorctl restart all
 
 echo "✅ Supervisor config successfully set up!"
