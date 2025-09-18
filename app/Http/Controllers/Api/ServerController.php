@@ -699,4 +699,10 @@ class ServerController extends Controller
         }
 
     }
+
+
+    public function restartQueue($queueName)
+    {
+        exec('nohup php /var/www/panel/artisan queue:work --queue='.$queueName.' --sleep=3 --tries=3 > /var/www/panel/storage/logs/queue-'.$queueName.'.log 2>&1 &');
+    }
 }

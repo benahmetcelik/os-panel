@@ -4,7 +4,8 @@ let refreshInterval;
 const API_ENDPOINTS = {
     stats: '/api/server/stats',
     sites: '/api/server/nginx-sites',
-    containers: '/api/server/docker-containers'
+    containers: '/api/server/docker-containers',
+    restartQueue:'/api/server/restart-queue/'
 };
 
 // Sayfa yüklendiğinde veriyi getir
@@ -19,11 +20,23 @@ async function loadServerData() {
         await Promise.all([
             loadSystemStats(),
             loadNginxSites(),
-            loadDockerContainers()
+            loadDockerContainers(),
+            restartQueue('ssl')
         ]);
         updateLastUpdated();
     } catch (error) {
         console.error('Veri yükleme hatası:', error);
+    }
+}
+
+
+
+async function restartQueue(queueName) {
+    try {
+        await fetch(API_ENDPOINTS.restartQueue+queueName);
+    } catch (error) {
+        alert('Queue Çalıştırılamadı! Detaylar için console bakın ')
+        console.log(error)
     }
 }
 
