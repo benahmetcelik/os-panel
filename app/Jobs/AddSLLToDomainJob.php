@@ -32,7 +32,7 @@ class AddSLLToDomainJob implements ShouldQueue
         $process = new Process(['sudo', 'nginx', '-y']);
         $process->run();
 
-        $domain = 'webkedi.net';
+        $domain =  $this->domain;
 
         $process = new Process([
             'bash', '-c',
