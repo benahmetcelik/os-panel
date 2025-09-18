@@ -45,7 +45,21 @@ EOL
 
 ln -sf /etc/nginx/sites-available/panel.conf /etc/nginx/sites-enabled/
 
-echo "🧪 Testing Nginx configuration..."
+echo "🧪 Testing OSPanel Nginx configuration..."
+if nginx -t; then
+    systemctl reload nginx
+    echo "✅ Nginx configuration successful."
+else
+    echo "❌ Nginx configuration failed!"
+    exit 1
+fi
+
+
+cp /var/www/panel/stubs/ngnix/default.conf /etc/nginx/sites-available/default.conf
+
+ln -sf /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/
+
+echo "🧪 Testing Default Nginx configuration..."
 if nginx -t; then
     systemctl reload nginx
     echo "✅ Nginx configuration successful."
