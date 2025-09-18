@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\AddSLLToDomainJob;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
@@ -85,27 +86,12 @@ class Site extends Model
 
         // reload
         $process = new Process(['sudo', 'systemctl', 'reload', 'nginx']);
-        $process->run();
+        $process->start();
     }
 
     public function enableSSL()
     {
-        $process = new Process(['sudo', 'nginx', '-y']);
-        $process->run();
-
-        $process = new Process([
-            'sudo',
-            'certbot',
-            '--nginx',
-            '--non-interactive',
-            '--agree-tos',
-            '-m', 'admin@'.$this->domain,
-            '-d', $this->domain,
-            '-d', 'www.'.$this->domain
-        ]);
-
-        $process->start();
-
-
+        dispatch(new AddSLLToDomainJob($this->domain))->delay(now()->addSecond())
+        ->onQueue('ssl');
     }
 }
