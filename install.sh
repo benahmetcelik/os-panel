@@ -50,7 +50,7 @@ echo "🖥️  Starting supervisor installer script..."
 curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/supervisor_installer.sh" | bash
 
 echo "🖥️  Starting supervisor setup script..."
-curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/supervisor_setup.sh" | bash
+curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/supervisor_setup_script.sh" | bash
 
 echo "🖥️  Starting terminal server script..."
 curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/start-terminal-server.sh" | bash
