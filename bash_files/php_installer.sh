@@ -2,13 +2,13 @@ source ./vars.sh
 
 echo "Target PHP version: $PHP_VERSION"
 
-# Ubuntu/Debian için PHP 8.1 repository ekle
-echo "🔧 Adding PHP 8.1 repository..."
+
+echo "🔧 Adding PHP ${PHP_VERSION} repository..."
 apt install -y software-properties-common
 add-apt-repository ppa:ondrej/php -y
 apt update
 
-echo "🐘 Installing PHP 8.1 and required extensions..."
+echo "🐘 Installing PHP ${PHP_VERSION} and required extensions..."
 apt install -y \
     php${PHP_VERSION} \
     php${PHP_VERSION}-fpm \
@@ -23,7 +23,7 @@ apt install -y \
     php${PHP_VERSION}-intl
 
 # PHP 8.1'i varsayılan yap
-echo "⚙️  Setting PHP 8.1 as default..."
+echo "⚙️  Setting PHP ${PHP_VERSION} as default..."
 update-alternatives --set php /usr/bin/php${PHP_VERSION}
 
 # PHP versiyonunu doğrula
