@@ -13,7 +13,6 @@ fi
 echo "🖥️  Starting directory setter script..."
 curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/directory_setter.sh" | bash
 
-
 echo "📂 Changing to /var/www/panel directory..."
 cd /var/www/panel
 
@@ -43,6 +42,15 @@ curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/b
 
 echo "🔐 SSL Module Installing..."
 sudo apt install certbot python3-certbot-nginx -y
+
+echo "🖥️  Starting redis installer script..."
+curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/redis_installer.sh" | bash
+
+echo "🖥️  Starting supervisor installer script..."
+curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/supervisor_installer.sh" | bash
+
+echo "🖥️  Starting supervisor setup script..."
+curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/supervisor_setup.sh" | bash
 
 echo "🖥️  Starting terminal server script..."
 curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/start-terminal-server.sh" | bash

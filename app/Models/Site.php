@@ -95,7 +95,5 @@ class Site extends Model
     public function enableSSL()
     {
         dispatch(new AddSLLToDomainJob($this->domain))->delay(now()->addSecond())->onQueue('ssl');
-        exec('nohup php /var/www/panel/artisan queue:work --queue=ssl --sleep=3 --tries=3 > /var/www/panel/storage/logs/queue-ssl.log 2>&1 &');
-
     }
 }
