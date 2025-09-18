@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
+
 use Illuminate\Support\Str;
+use Symfony\Component\Process\Process;
 
 class Site extends Model
 {
@@ -43,20 +45,45 @@ class Site extends Model
      */
     public function createNginxConfig()
     {
-        $nginx_config = file_get_contents( base_path('stubs/nginx/available.stub'));
-        $edit_domain = str_replace('[[domain]]', $this->domain, $nginx_config);
-        $edit_path = str_replace('[[path]]', $this->working_directory, $edit_domain);
-        file_put_contents(nginxAvailableConfigPath($this->domain), $edit_path);
-
-        $nginx_config = file_get_contents( base_path('stubs/nginx/enabled.stub'));
-        $edit_domain = str_replace('[[domain]]', $this->domain, $nginx_config);
-        $edit_path = str_replace('[[path]]', $this->working_directory, $edit_domain);
-        file_put_contents(nginxEnabledConfigPath($this->domain), $edit_path);
+        $stub = file_get_contents(base_path('stubs/nginx/available.stub'));
+        $config = str_replace(
+            ['[[domain]]', '[[path]]'],
+            [$this->domain, $this->getSitePath()],
+            $stub
+        );
+        file_put_contents(storage_path('nginx/'.$this->domain), $config);
 
     }
 
     public function getSitePath()
     {
         return public_path($this->working_directory);
+    }
+
+    public function deploySite($domain)
+    {
+        $availablePath = "/etc/nginx/sites-available/{$domain}.conf";
+        $enabledPath   = "/etc/nginx/sites-enabled/{$domain}.conf";
+        $storagePath   = storage_path("nginx/{$domain}.conf");
+
+        // cp
+        $process = new Process(['sudo', 'cp', $storagePath, $availablePath]);
+        $process->run();
+
+        // symlink
+        $process = new Process(['sudo', 'ln', '-s', $availablePath, $enabledPath]);
+        $process->run();
+
+        // test nginx config
+        $process = new Process(['sudo', 'nginx', '-t']);
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException("Nginx config test failed: ".$process->getErrorOutput());
+        }
+
+        // reload
+        $process = new Process(['sudo', 'systemctl', 'reload', 'nginx']);
+        $process->run();
     }
 }

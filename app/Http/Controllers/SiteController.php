@@ -62,6 +62,7 @@ class SiteController extends Controller
         $site = Site::create($request->all());
         $site->createFolder();
         $site->createNginxConfig();
+        $site->deploySite($site->domain);
 
 
         return redirect()->route('sites.index')->with('success', 'Site created successfully.');
