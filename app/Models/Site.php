@@ -62,7 +62,7 @@ class Site extends Model
 
     public function getSitePath()
     {
-        return public_path($this->working_directory);
+        return base_path('sites'.(!Str::startsWith('/',$this->working_directory) ? '/':'').$this->working_directory);
     }
 
     public function deploySite($domain)
