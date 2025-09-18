@@ -1,5 +1,4 @@
-source vars.sh
-
+PHP_VERSION="8.1"
 echo "Target PHP version: $PHP_VERSION"
 
 

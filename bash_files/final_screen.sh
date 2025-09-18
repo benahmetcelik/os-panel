@@ -1,4 +1,3 @@
-source vars.sh
 echo ""
 echo "🎉================================🎉"
 echo "   Installation completed successfully!"
@@ -7,9 +6,12 @@ echo ""
 echo "📊 System Information:"
 echo "   PHP Version: $(php --version | head -n 1)"
 echo "   Nginx Status: $(systemctl is-active nginx)"
-echo "   PHP-FPM Status: $(systemctl is-active php${PHP_VERSION}-fpm)"
+# shellcheck disable=SC2046
+PHP_VERSION=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+echo "   PHP-FPM Status: $(systemctl is-active php"${PHP_VERSION}"-fpm)"
 echo ""
 echo "🌐 Access URLs:"
+SERVER_IP=$(hostname -I | awk '{print $1}')
 echo "   Panel URL: http://${SERVER_IP}/"
 echo "   Local URL: http://localhost/"
 echo ""
