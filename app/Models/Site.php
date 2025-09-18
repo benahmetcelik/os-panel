@@ -56,7 +56,6 @@ class Site extends Model
 
     public function getSitePath()
     {
-        $startsWith = Str::startsWith('/',$this->working_directory);
-        return __DIR__.(!$startsWith ? '/':'').$this->working_directory;
+        return public_path($this->working_directory);
     }
 }
