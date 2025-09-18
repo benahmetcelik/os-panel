@@ -46,12 +46,12 @@ class Site extends Model
         $nginx_config = file_get_contents( base_path('stubs/nginx/available.stub'));
         $edit_domain = str_replace('[[domain]]', $this->domain, $nginx_config);
         $edit_path = str_replace('[[path]]', $this->working_directory, $edit_domain);
-        file_put_contents(nginxAvailableConfigPath(), $edit_path);
+        file_put_contents(nginxAvailableConfigPath($this->domain), $edit_path);
 
         $nginx_config = file_get_contents( base_path('stubs/nginx/enabled.stub'));
         $edit_domain = str_replace('[[domain]]', $this->domain, $nginx_config);
         $edit_path = str_replace('[[path]]', $this->working_directory, $edit_domain);
-        file_put_contents(nginxEnabledConfigPath(), $edit_path);
+        file_put_contents(nginxEnabledConfigPath($this->domain), $edit_path);
 
     }
 

@@ -1,12 +1,13 @@
 <?php
 
 
-function nginxAvailableConfigPath()
+
+function nginxAvailableConfigPath($domain)
 {
-    return '/etc/nginx/sites-available';
+    return "/etc/nginx/sites-available/{$domain}.conf";
 }
 
-function nginxEnabledConfigPath()
+function nginxEnabledConfigPath($domain)
 {
-    return '/etc/nginx/sites-enabled';
+    return "/etc/nginx/sites-enabled/{$domain}.conf";
 }
