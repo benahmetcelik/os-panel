@@ -222,10 +222,8 @@ server {
 EOL
 
 echo "🔧 Enabling Nginx site configuration..."
-if [ -L /etc/nginx/sites-enabled/default ]; then
-    unlink /etc/nginx/sites-enabled/*
-    echo "✅ All sites disabled."
-fi
+rm -rf /etc/nginx/sites-enabled/*
+echo "✅ All sites disabled."
 
 ln -sf /etc/nginx/sites-available/panel.conf /etc/nginx/sites-enabled/
 
