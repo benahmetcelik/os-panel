@@ -60,7 +60,7 @@ class SiteController extends Controller
          * @var Site $site
          */
         $site = Site::create($request->all());
-        $site->createFolder();
+        $site->createSiteFolder();
         $site->createNginxConfig();
         $site->deploySite($site->domain);
         if ($request->ssl_status){
