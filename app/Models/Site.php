@@ -45,7 +45,10 @@ class Site extends Model
      */
     public function createNginxConfig()
     {
-        $stub = file_get_contents(base_path('stubs/nginx/available.stub'));
+
+        $stub = file_get_contents(base_path('stubs/nginx/available.'.
+            ($this->ssl_status ? '-with-ssl' : '')
+            .'.stub'));
         $config = str_replace(
             ['[[domain]]', '[[path]]'],
             [$this->domain, $this->getSitePath()],
@@ -85,5 +88,26 @@ class Site extends Model
         // reload
         $process = new Process(['sudo', 'systemctl', 'reload', 'nginx']);
         $process->run();
+    }
+
+    public function enableSSL()
+    {
+        $process = new Process(['sudo', 'nginx', '-y']);
+        $process->run();
+
+        $process = new Process([
+            'sudo',
+            'certbot',
+            '--nginx',
+            '--non-interactive',
+            '--agree-tos',
+            '-m', 'admin@'.$this->domain,
+            '-d', $this->domain,
+            '-d', 'www.'.$this->domain
+        ]);
+
+        $process->run();
+
+
     }
 }

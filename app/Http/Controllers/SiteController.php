@@ -63,6 +63,9 @@ class SiteController extends Controller
         $site->createFolder();
         $site->createNginxConfig();
         $site->deploySite($site->domain);
+        if ($request->ssl_status){
+            $site->enableSSL();
+        }
 
 
         return redirect()->route('sites.index')->with('success', 'Site created successfully.');
@@ -80,8 +83,14 @@ class SiteController extends Controller
             'ssl_status' => 'required|boolean',
         ]);
 
+        /**
+         * @var Site $site
+         */
         $site = Site::findOrFail($id);
         $site->update($request->all());
+        $site->createFolder();
+        $site->createNginxConfig();
+        $site->deploySite($site->domain);
 
         return redirect()->route('sites.index')->with('success', 'Site updated successfully.');
     }

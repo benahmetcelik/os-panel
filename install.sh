@@ -192,7 +192,7 @@ echo "🌐 Creating Nginx configuration for the panel..."
 cat > /etc/nginx/sites-available/panel.conf <<EOL
 server {
     listen 80;
-    server_name http://${SERVER_IP};  # Your server IP address or domain
+    server_name ${SERVER_IP};
 
     root /var/www/panel/public;
     index index.php index.html index.htm;
@@ -237,6 +237,8 @@ else
     echo "❌ Nginx configuration failed!"
     exit 1
 fi
+echo "🔐 SSL Module Installing..."
+sudo apt install certbot python3-certbot-nginx -y
 
 echo "🐘 Starting PHP-FPM service..."
 systemctl start php${PHP_VERSION}-fpm
