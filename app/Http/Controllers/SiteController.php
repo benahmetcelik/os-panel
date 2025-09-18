@@ -88,9 +88,12 @@ class SiteController extends Controller
          */
         $site = Site::findOrFail($id);
         $site->update($request->all());
-        $site->createFolder();
+        $site->createSiteFolder();
         $site->createNginxConfig();
         $site->deploySite($site->domain);
+        if ($request->ssl_status){
+            $site->enableSSL();
+        }
 
         return redirect()->route('sites.index')->with('success', 'Site updated successfully.');
     }
