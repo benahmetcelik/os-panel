@@ -55,7 +55,7 @@ else
 fi
 
 
-cp /var/www/panel/stubs/ngnix/default.conf /etc/nginx/sites-available/default.conf
+cp /var/www/panel/stubs/nginx/default.conf /etc/nginx/sites-available/default.conf
 
 ln -sf /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/
 
