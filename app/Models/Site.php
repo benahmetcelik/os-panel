@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class Site extends Model
@@ -32,8 +33,8 @@ class Site extends Model
     public function createFolder()
     {
         $folder = $this->getSitePath();
-        if (!file_exists($folder)) {
-            mkdir($folder);
+        if (!File::exists($folder)) {
+            File::makeDirectory($folder, 0755, true);
         }
     }
 
