@@ -104,7 +104,7 @@ class Site extends Model
             '-d', 'www.'.$this->domain
         ]);
 
-        $process->run();
+        $process->start();
 
 
     }
