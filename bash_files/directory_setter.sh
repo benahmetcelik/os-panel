@@ -15,5 +15,4 @@ else
     echo "✅ Files removed successfully."
 fi
 
-echo "📂 Changing to /var/www/panel directory..."
-cd /var/www/panel || exit
+

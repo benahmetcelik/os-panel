@@ -13,6 +13,10 @@ fi
 echo "🖥️  Starting directory setter script..."
 curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/directory_setter.sh" | bash
 
+
+echo "📂 Changing to /var/www/panel directory..."
+cd /var/www/panel
+
 echo "🖥️  Starting updater script..."
 curl "https://raw.githubusercontent.com/benahmetcelik/os-panel/refs/heads/main/bash_files/updater.sh" | bash
 

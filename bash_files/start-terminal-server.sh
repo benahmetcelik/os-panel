@@ -11,6 +11,7 @@ sleep 2
 
 # Terminal server'ı başlat
 echo "🔧 Terminal server başlatılıyor..."
+cd /var/www/panel || exit
 php artisan docker:terminal-server &
 
 # Server'ın başlaması için bekle

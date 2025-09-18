@@ -11,6 +11,14 @@ rm -rf /tmp/panel-temp
 echo "🔒 Adding git safe directory..."
 git config --global --add safe.directory /var/www/panel
 
+echo "🗄️  Creating database file..."
+cd /var/www/panel || exit
+mkdir -p database
+touch database/database.sqlite
+chmod 664 database/database.sqlite
+chown www-data:www-data database/database.sqlite
+echo "✅ SQLite database created."
+
 echo "⚙️  Setting up environment file..."
 if [ -f ".env.example" ]; then
     cp .env.example .env
@@ -18,13 +26,6 @@ if [ -f ".env.example" ]; then
 else
     echo "⚠️  Warning: .env.example not found!"
 fi
-
-echo "🗄️  Creating database file..."
-mkdir -p database
-touch database/database.sqlite
-chmod 664 database/database.sqlite
-chown www-data:www-data database/database.sqlite
-echo "✅ SQLite database created."
 
 echo "📦 Installing Composer dependencies..."
 composer install --no-dev --optimize-autoloader
