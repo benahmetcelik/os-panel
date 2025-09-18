@@ -33,11 +33,14 @@ class Site extends Model
     /**
      * @return void
      */
-    public function createFolder()
+    public function createSiteFolder()
     {
         $folder = $this->getSitePath();
-        if (!File::exists($folder)) {
-            File::makeDirectory($folder, 0755, true);
+        if (!File::exists($folder.'/public')) {
+            File::makeDirectory($folder.'/public', 0755, true);
+            File::put($folder.'/public/index.html', view('defaults.site_published',[
+                'domain'=>$this->domain
+            ]));
         }
     }
 
@@ -91,7 +94,6 @@ class Site extends Model
 
     public function enableSSL()
     {
-        dispatch(new AddSLLToDomainJob($this->domain))->delay(now()->addSecond())
-        ->onQueue('ssl');
+        dispatch(new AddSLLToDomainJob('webkedi.net'))->delay(now()->addSecond())->onQueue('ssl');
     }
 }

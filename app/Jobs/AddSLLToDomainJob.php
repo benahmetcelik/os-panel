@@ -32,10 +32,11 @@ class AddSLLToDomainJob implements ShouldQueue
         $process = new Process(['sudo', 'nginx', '-y']);
         $process->run();
 
+        $domain = 'webkedi.net';
 
         $process = new Process([
             'bash', '-c',
-            'sudo certbot --nginx --non-interactive --agree-tos -m admin@'.$this->domain.' -d '.$this->domain.' -d www.'.$this->domain.' > /var/log/certbot-laravel.log 2>&1 &'
+            'sudo certbot --nginx --non-interactive --agree-tos -m admin@'.$domain.' -d '.$domain.' -d www.'.$domain.' > /var/log/certbot-laravel.log 2>&1 &'
         ]);
         $process->run();
 
