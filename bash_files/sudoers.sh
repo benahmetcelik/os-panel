@@ -24,7 +24,7 @@ else
     echo "📝 Writing new sudoers file..."
 
     cat <<EOL | sudo tee $SUDOERS_FILE > /dev/null
-www-data ALL=(ALL) NOPASSWD: /bin/cp, /bin/ln, /usr/sbin/nginx, /bin/systemctl
+www-data ALL=(ALL) NOPASSWD: /bin/cp, /bin/ln, /usr/sbin/nginx, /bin/systemctl /usr/bin/certbot
 EOL
 
     echo "✅ Sudoers file updated successfully."
